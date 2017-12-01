@@ -187,7 +187,6 @@ public class DeployCarMojo extends AbstractMojo {
 				if(server.getTrustStorePath()!=null){
 					trustStorePath=server.getTrustStorePath();
 				}
-				getLog().info("TSPWD="+server.getTrustStorePassword());
 				if(server.getTrustStorePassword()!=null){
 					trustStorePassword=server.getTrustStorePassword();
 				}
@@ -203,7 +202,6 @@ public class DeployCarMojo extends AbstractMojo {
 				if(server.getUserName()!=null){
 					userName=server.getUserName();
 				}
-				getLog().info("Password="+server.getPassword());
 				if(server.getPassword()!=null){
 					password=server.getPassword();
 				}
@@ -270,26 +268,6 @@ public class DeployCarMojo extends AbstractMojo {
 	    }
 	}
 	
-	@SuppressWarnings("unused")
-	private void printParams(){
-		if(!carbonServers.isEmpty()){
-			for (CarbonServer server : carbonServers) {
-				getLog().info("Server:");
-				getLog().info("TSPath="+server.getTrustStorePath());
-				getLog().info("TSPWD="+server.getTrustStorePassword());
-				getLog().info("TSType="+server.getTrustStoreType());
-				getLog().info("Server URL="+server.getServerUrl());
-				getLog().info("UserName="+server.getUserName());
-				getLog().info("Password="+server.getPassword());
-				getLog().info("Operation="+server.getOperation());
-				
-				if(server.getUserName()==null){
-					getLog().info("HIT THE GROUNDS!");
-				}
-			}
-		}
-	}
-	
 	private void setSystemProperties(){
 		System.setProperty("javax.net.ssl.trustStore", trustStorePath);
 		System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
@@ -307,6 +285,7 @@ public class DeployCarMojo extends AbstractMojo {
 			getLog().info("Authentication to "+serverURL+" successful.");
 			return sessionCookie;
 		}else{
+			getLog().warning("Authentication to "+serverURL+" NOT successful.");
 			return null;
 		}
 	}
